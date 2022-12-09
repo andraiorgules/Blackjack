@@ -1,5 +1,4 @@
-#include<iostream>
-using namespace std;
+#include"util.h"
 
 
 // deck of 52 cards with 4 faces and each one has a value
