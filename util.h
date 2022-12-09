@@ -3,6 +3,11 @@
 
 void Clear();
 
-void Build();
+void Shuffle();
 
+void Deal();
+
+void Add();
+
+void Show();
 
