@@ -1,8 +1,8 @@
 #pragma once
+#include<iostream>
 #include<vector>
 #include<stdlib.h>
 #include<time.h>
-#include<iostream>
 using namespace std;
 
 
@@ -12,11 +12,42 @@ void Shuffle();
 
 void Show();
 
-int Deal();
+int Draw();
 
 void Add();
 
+void Start();
+
+void makeDealer();
+
+void makePlayer();
 
 
+class Player
+{
+    private:
+        vector<int>hand;
+
+    public:
+        int Scan();
+        void Hit();
+
+};
+
+class Dealer
+{
+
+    private:
+        vector<int>hand;
+        vector<Player*>pSet;
+
+    public:
+        void setPSet(vector<Player*>& pSet);
+        vector<Player*> getPSet();
+        void Deal();
+        int Scan();
+        void Hit();
+
+};
 
 

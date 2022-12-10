@@ -5,6 +5,8 @@
         "__split_buffer": "cpp",
         "string": "cpp",
         "tuple": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "array": "cpp",
+        "string_view": "cpp"
     }
 }

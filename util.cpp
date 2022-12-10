@@ -2,19 +2,27 @@
 
 
 
+vector<int>deck;
+vector<Dealer*>dSet;
+vector<Player*>pSet;
+
 // face values 
 int Ace = 1;
 int J = 10;
 int Q = 10;
 int K = 10;
-vector<int>deck;
+
 
 //instantiate deck 
-void MakeDeck() {
-	deck = { Ace,2,3,4,5,6,7,8,9,10,J,Q,K,
-	         Ace,2,3,4,5,6,7,8,9,10,J,Q,K,
-	         Ace,2,3,4,5,6,7,8,9,10,J,Q,K,
-	         Ace,2,3,4,5,6,7,8,9,10,J,Q,K };
+void MakeDeck() 
+{
+	deck = 
+	{ 
+		Ace,2,3,4,5,6,7,8,9,10,J,Q,K,
+	    Ace,2,3,4,5,6,7,8,9,10,J,Q,K,
+	    Ace,2,3,4,5,6,7,8,9,10,J,Q,K,
+	    Ace,2,3,4,5,6,7,8,9,10,J,Q,K 
+	};
 }
 
 //shuffle the deck
@@ -26,14 +34,13 @@ void Shuffle()
     {
         swap(deck[i], deck[rand() % 52]);
     }
-		
-	cout << "Shuffled Deck" << endl;
 }
 
 //display deck
 void Show()
 {
 	int t=0;
+
 	for (auto i : deck) 
     {
 		cout << i << " ,";
@@ -42,40 +49,178 @@ void Show()
 	}
 }
 
-
-//player hand
-
-//dealer hand
-
-
-
-
-//give cards to each person //add to remove them from the deck
-int Deal()
+//add cards to hands
+int Draw()
 {
-
-	int card=deck.front();
+	int card = deck.front();
 	deck.erase(deck.begin());
 	return card;
-
 }
 
 
 
+
+//player hand
+void Player::Hit() 
+{
+	this->hand.push_back(Draw());
+}
+
+//check player's hand
+int Player::Scan() 
+{
+	int sum = 0;
+
+	for (auto i : this->hand) 
+	{
+		if (i == 1 && sum + 11 <= 21) 
+		i = 11;
+		cout << i << endl;
+		sum += i;
+	}
+
+	return sum;
+}
+
+//add player to game
+void makePlayer()
+{
+	Player* d = new Player();
+	pSet.push_back(d);
+}
+
+
+
+
+
+//dealer hand
+void Dealer::setPSet(vector<Player*>& pSet) 
+{
+	this->pSet = pSet;
+}
+
+vector<Player*> Dealer::getPSet() 
+{
+	return this->pSet;
+}
+
+void Dealer::Hit() 
+{
+	this->hand.push_back(Draw());
+}
+
+//give a card to each person and remove from deck
+void Dealer::Deal() 
+{
+	
+	this->Hit();
+
+	for (auto p : this->pSet) 
+	{
+		p->Hit();
+	}
+}
+
+//check dealer's hand
+int Dealer::Scan() 
+{
+	int sum = 0;
+
+	cout << "Dealer's Hand:" << endl;
+
+	for (auto i : this->hand) 
+	{
+		if (i == 1 && sum + 11 <= 21) 
+		i = 11;
+		cout << i << endl;
+		sum += i;
+	}
+
+	return sum;
+}
+
+//add dealer to game
+void makeDealer()
+{
+	Dealer* d = new Dealer();
+	dSet.push_back(d);
+}
+
+
+
+
+
+void Start()
+{
+	Dealer* d = dSet.front();
+    d->setPSet(pSet);
+    d->Deal();
+	d->Deal();
+}
+
 //add card totals, see who won, and give them a point 
 void Add()
 {
+	Dealer* d = dSet.front();
+	int dHand = d -> Scan();
+
+	string score = "";
+
+	for (auto p : d->getPSet()) 
+	{
+	
+		cout << "Player's Hand" << endl;
+		int pHand = p -> Scan();
+
+		if (pHand < 21 && dHand < 21)
+		{
+			 d->setPSet(pSet);
+             d->Deal();
+		}
+        else
+		{
+			if (pHand == 21 && dHand == 21) 
+			{
+				score += "Tie\n";
+			}
+			if (pHand == 21 && dHand != 21) 
+			{
+				score += "Player Wins!\n";
+			}
+			if(pHand != 21 && dHand == 21) 
+			{
+				score += "Dealer Wins!\n";
+			}
+			if (pHand < 21 && pHand > dHand) 
+			{
+				score += "Player Wins!\n";
+			}
+			if (pHand > 21) 
+			{
+				score += "Player Lose!\n";
+			}
+			if (dHand > 21) 
+			{
+				score += "Player Wins!\n";
+			}
+			if (pHand == dHand) 
+			{
+				score += "Tie\n";
+			}
+			if (pHand < dHand) 
+			{
+				score += "Player Lose!\n";
+			}
+		}
+	}
+		cout << score << endl;
 
 }
 
 
 //function for displaying the amount of wins and losses for both
 
-//game keeps going until the deck is empty 
+//make game keep going until the deck is empty 
 
-// win conditions:
-//Get 21 points on the player's first two cards (called a "blackjack" or "natural"), without a dealer blackjack
-//Reach a final score (3 cards) higher than the dealer without exceeding 21
-//Let the dealer draw additional cards until his or her hand exceeds 21
 
 
