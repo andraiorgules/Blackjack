@@ -8,9 +8,7 @@
 int main()
 {
     MakeDeck();
-    //Show();
     Shuffle();
-    //Show();
     makeDealer();
     makePlayer();
     Start();

@@ -37,7 +37,7 @@ void Shuffle()
 }
 
 //display deck
-void Show()
+/*void Show()
 {
 	int t=0;
 
@@ -47,7 +47,7 @@ void Show()
 		t++;
 		if (t % 13 == 0) cout << endl;
 	}
-}
+} */
 
 //add cards to hands
 int Draw()
@@ -60,7 +60,7 @@ int Draw()
 
 
 
-//player hand
+//add card to player hand
 void Player::Hit() 
 {
 	this->hand.push_back(Draw());
@@ -93,17 +93,17 @@ void makePlayer()
 
 
 
-//dealer hand
+
 void Dealer::setPSet(vector<Player*>& pSet) 
 {
 	this->pSet = pSet;
-}
+} 
 
 vector<Player*> Dealer::getPSet() 
 {
 	return this->pSet;
 }
-
+ //add card to dealer hand
 void Dealer::Hit() 
 {
 	this->hand.push_back(Draw());
@@ -174,7 +174,6 @@ void Add()
 
 		if (pHand < 21 && dHand < 21)
 		{
-			 d->setPSet(pSet);
              d->Deal();
 		}
         else
