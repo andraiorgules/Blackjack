@@ -14,9 +14,9 @@ void Show();
 
 int Draw();
 
-void Add();
+void Result();
 
-void Start();
+void Begin();
 
 void makeDealer();
 
@@ -30,7 +30,7 @@ class Player
 
     public:
         int Scan();
-        void Hit();
+        void Add();
 
 };
 
@@ -46,7 +46,7 @@ class Dealer
         vector<Player*> getPSet();
         void Deal();
         int Scan();
-        void Hit();
+        void Add();
 
 };
 

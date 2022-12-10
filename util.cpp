@@ -61,7 +61,7 @@ int Draw()
 
 
 //add card to player hand
-void Player::Hit() 
+void Player::Add() 
 {
 	this->hand.push_back(Draw());
 }
@@ -103,8 +103,9 @@ vector<Player*> Dealer::getPSet()
 {
 	return this->pSet;
 }
+
  //add card to dealer hand
-void Dealer::Hit() 
+void Dealer::Add() 
 {
 	this->hand.push_back(Draw());
 }
@@ -113,11 +114,11 @@ void Dealer::Hit()
 void Dealer::Deal() 
 {
 	
-	this->Hit();
+	this->Add();
 
 	for (auto p : this->pSet) 
 	{
-		p->Hit();
+		p->Add();
 	}
 }
 
@@ -150,7 +151,7 @@ void makeDealer()
 
 
 
-void Start()
+void Begin()
 {
 	Dealer* d = dSet.front();
     d->setPSet(pSet);
@@ -159,14 +160,14 @@ void Start()
 }
 
 //add card totals, see who won, and give them a point 
-void Add()
+void Result()
 {
 	Dealer* d = dSet.front();
 	int dHand = d -> Scan();
 
 	string score = "";
 
-	for (auto p : d->getPSet()) 
+	for (auto p : d -> getPSet()) 
 	{
 	
 		cout << "Player's Hand" << endl;
@@ -174,10 +175,15 @@ void Add()
 
 		if (pHand < 21 && dHand < 21)
 		{
-             d->Deal();
+			//ADD ANOTHER CARD TO BOTH
+			//THEN SCAN AGAIN
 		}
         else
 		{
+			if (pHand == dHand) 
+			{
+				score += "Tie\n";
+			}
 			if (pHand == 21 && dHand == 21) 
 			{
 				score += "Tie\n";
@@ -186,11 +192,11 @@ void Add()
 			{
 				score += "Player Wins!\n";
 			}
-			if(pHand != 21 && dHand == 21) 
-			{
-				score += "Dealer Wins!\n";
-			}
 			if (pHand < 21 && pHand > dHand) 
+			{
+				score += "Player Wins!\n";
+			}
+			if (dHand > 21) 
 			{
 				score += "Player Wins!\n";
 			}
@@ -198,19 +204,12 @@ void Add()
 			{
 				score += "Player Lose!\n";
 			}
-			if (dHand > 21) 
+			if(pHand != 21 && dHand == 21) 
 			{
-				score += "Player Wins!\n";
+				score += "Dealer Wins!\n";
 			}
-			if (pHand == dHand) 
-			{
-				score += "Tie\n";
-			}
-			if (pHand < dHand) 
-			{
-				score += "Player Lose!\n";
-			}
-		}
+			
+		} 
 	}
 		cout << score << endl;
 
